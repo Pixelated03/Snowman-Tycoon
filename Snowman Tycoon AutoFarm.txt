@@ -1,0 +1,25 @@
+pcall(function()
+	getgenv().AutoF2()
+end)
+local R,P=game.ReplicatedStorage.GTycoonClient.Remotes,game.Players.LocalPlayer
+pcall(function()
+    P.PlayerScripts.Gameplay.OnServerTick:Destroy()
+end)
+pcall(function()
+    P.PlayerGui.MainUI.DropsInventory.DropsInventory:Destroy()
+end)
+local i=0
+local C=R.DropTick.OnClientEvent:Connect(function()
+    R.GrabDrops:FireServer(9e9)
+	R.DepositDrops:FireServer()
+	R.BuyDropper:FireServer(5)
+	R.MergeDroppers:FireServer()
+	i=i+1
+	if i==20 then
+		R.BuySpeed:FireServer(1)
+		i=0
+	end
+end)
+getgenv().AutoF2=function()
+	C:Disconnect()
+end
